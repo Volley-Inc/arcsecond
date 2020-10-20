@@ -1,9 +1,10 @@
 {
-  "name": "arcsecond",
+  "name": "@volley/arcsecond",
   "version": "3.1.0",
   "description": "",
   "main": "index",
   "module": "index.mjs",
+  "types": "index.d.ts",
   "scripts": {
     "test": "npm run build && jest",
     "test:nobuild": "jest",
@@ -14,7 +15,7 @@
   "jest": {
     "transform": {}
   },
-  "author": "Francis Stokes <stokesie14@gmail.com>",
+  "author": "Francis Stokes <stokesie14@gmail.com>, Michael Poteat <me@mpote.at>",
   "license": "MIT",
   "dependencies": {},
   "devDependencies": {
