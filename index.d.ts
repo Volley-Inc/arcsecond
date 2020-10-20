@@ -41,7 +41,7 @@
     stateData: Arcsecond.StateData<R, D>
   ) => B;
 
-  namespace Arcsecond {
+  export namespace Arcsecond {
     export type Either<R> = { isError: boolean; value: R };
     export type ParserState<R = null, D = null, E = null> =
       | SuccessState<R, D>
