@@ -130,7 +130,7 @@
        * the index (index) that parsing stopped at, and the data (data) from this parsing session.
        */
       public errorMap<Error>(
-        errorMapFn: (error: string, index: number, data: D) => Error
+        errorMapFn: (arg0: {error: string, index: number, data: D}) => Error
       ): Parser<R, D, Error>;
 
       /**
