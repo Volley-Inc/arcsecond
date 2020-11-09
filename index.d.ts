@@ -42,7 +42,7 @@
   ) => B;
 
   export namespace Arcsecond {
-    export type Either<R> = { isError: boolean; value: R };
+    export type Either<R,E> = { isError: false; value: R } | {isError:true, value:E};
     export type ParserState<R = null, D = null, E = null> =
       | SuccessState<R, D>
       | ErrorState<E>;
@@ -118,19 +118,19 @@
        * This is a useful method when either trying to recover from errors, or for when a more
        * specific error message should be constructed.
        */
-      public errorChain(
-        errorChainFn: ErrorChainCallback<R, D, E>
-      ): Parser<R, D>;
+      public errorChain<Res=any>(
+        errorChainFn: ErrorChainCallback<Res, D, E>
+      ): Parser<Res|R, D,E>;
 
       /**
-       * `Parser e a s ~> ((e, Integer, s) -> Parser f a s) -> Parser f a s`
+       * `Parser e a s ~> ((e, Integer, s) -> f) -> Parser e a f`
        *
        * .errorMap is like .map but it transforms the error value.
        * The function passed to .errorMap gets an object the current error message (error),
        * the index (index) that parsing stopped at, and the data (data) from this parsing session.
        */
       public errorMap<Error>(
-        errorMapFn: (error: string, index: number, data: D) => Error
+        errorMapFn: (error: E, index: number, data: D) => Error
       ): Parser<R, D, Error>;
 
       /**
@@ -1078,8 +1078,12 @@
      *
      * Takes an value and returns a parser that always matches that value and does not consume any input.
      */
-    export const succeedWith: <A>(a: A) => Parser<A>;
 
+    interface SucceedsWith {
+      <A>(a: A): Parser<A>;
+      (): Parser<void>;
+    }
+    export const succeedWith: SucceedsWith
     /**
      * `Parser e a s -> Parser e (Either e a) s`
      *
@@ -1088,7 +1092,7 @@
      */
     export const either: <P extends AnyParser>(
       parser: P
-    ) => Parser<Either<ExtractParserResult<P>>, any, any>;
+    ) => Parser<Either<ExtractParserResult<P>, ExtractParserError<P>>, any, any>;
 
     /**
      * `ParserResult e a s -> Promise (e, Integer, s) a`
