@@ -213,7 +213,7 @@ Parser.prototype['fantasy-land/ap'] = function Parser$ap(parserOfFunction) {
   });
 };
 
-//               errorMap :: Parser e a s ~> (e -> f) -> Parser f a s
+//               errorMap :: Parser e a s ~> (e -> f) ->  Parser e a f
 Parser.prototype.errorMap = function Parser$errorMap(fn) {
   const p = this.p;
   return new Parser(function Parser$errorMap$state(state) {
